@@ -1,0 +1,5 @@
+# Originais pesados — so no disco/S3; no git ficam thumbs/ e large/
+assets/IMAGENS/
+assets/BOOK-PRINT.pdf
+*.pdf
+Thumbs.db
