@@ -138,9 +138,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   #grid{grid-template-columns:repeat(2,1fr);gap:10px}
   .tile .ttl{font-size:16px}
   .tile .plus{display:none}
-  #lb-main{padding:0 8px}
-  #lb-main .ibtn{position:absolute;z-index:3;top:50%;margin-top:-22px}
-  #lb-main .ibtn.prev{left:10px}#lb-main .ibtn.next{right:10px}
+  #lb-main{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:minmax(0,1fr) auto;gap:14px 16px;padding:0 12px}
+  #lb-view{grid-column:1/-1;grid-row:1;height:100%}
+  #lb-main .ibtn.prev{grid-row:2;justify-self:end}
+  #lb-main .ibtn.next{grid-row:2;justify-self:start}
   #lb-title{font-size:20px}
   #lb-strip{display:none}
 }
