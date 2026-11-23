@@ -71,7 +71,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 #crumb{font-family:var(--serif);font-size:34px;font-weight:300;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #crumb i{font-style:italic;opacity:.6}
 #total{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--sand-soft);margin-left:auto;white-space:nowrap}
-#chips{display:none}
+#chips,#chips-sub{display:none}
 #scroller{flex:1;overflow-y:auto;padding:6px 36px 40px;scrollbar-width:thin;scrollbar-color:var(--line-strong) transparent}
 #grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));grid-auto-flow:dense;gap:14px}
 .tile{position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--panel);cursor:pointer;border:1px solid var(--line);opacity:0;transform:translateY(18px);animation:rise .7s var(--ease) forwards;animation-delay:calc(var(--i)*38ms);outline:none}
@@ -128,8 +128,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   #top{padding:16px 20px 10px}
   #crumb{font-size:24px}
   #total{display:none}
-  #chips{display:flex;gap:8px;overflow-x:auto;padding:0 20px 10px;scrollbar-width:none}
-  #chips::-webkit-scrollbar{display:none}
+  #chips,#chips-sub{display:flex;gap:8px;overflow-x:auto;padding:0 20px 10px;scrollbar-width:none}
+  #chips-sub:empty{display:none}
+  #chips::-webkit-scrollbar,#chips-sub::-webkit-scrollbar{display:none}
   .chip{flex-shrink:0;padding:8px 14px;border:1px solid var(--line-strong);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--sand-soft);transition:all .25s}
   .chip.active{background:var(--sand);color:var(--bg);border-color:var(--sand)}
   .chip.sub{border-style:dashed}
@@ -165,6 +166,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
       <button class="ibtn close" id="btn-close-top" aria-label="Fechar galeria"></button>
     </div>
     <div id="chips"></div>
+    <div id="chips-sub"></div>
     <div id="scroller">
       <div id="grid"></div>
       <div id="empty">Nenhuma imagem nesta categoria.</div>
@@ -232,10 +234,10 @@ function renderNav(){
     wrap.appendChild(inner); nav.appendChild(wrap);
   });
   // chips (mobile)
-  const ch=$('chips'); ch.innerHTML='';
-  const chip=(t,fn,a,sub)=>{ const b=document.createElement('button'); b.className='chip'+(a?' active':'')+(sub?' sub':''); b.textContent=t; b.onclick=fn; ch.appendChild(b); };
+  const ch=$('chips'), chs=$('chips-sub'); ch.innerHTML=''; chs.innerHTML='';
+  const chip=(t,fn,a,sub)=>{ const b=document.createElement('button'); b.className='chip'+(a?' active':'')+(sub?' sub':''); b.textContent=t; b.onclick=fn; (sub?chs:ch).appendChild(b); };
   chip('Todas',()=>select('all',null),st.cat==='all');
-  CATS.forEach(c=>chip(c.label,()=>select(c.id,null),st.cat===c.id&&!st.sub));
+  CATS.forEach(c=>chip(c.label,()=>select(c.id,null),st.cat===c.id));
   const cur=CATS.find(c=>c.id===st.cat);
   if(cur) cur.subs.forEach(s=>chip(s.label,()=>select(cur.id,s.id),st.sub===s.id,true));
 }
